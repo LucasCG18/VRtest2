@@ -7,7 +7,7 @@ extends Node
 @export var tempo_para_apagar_segundos: float = 2.0
 @export var intervalo_atualizacao_segundos: float = 1
 @export var frames_visiveis_para_spawn: int = 2
-@export var frames_invisiveis_para_remover: int = 2
+@export_range(1, 120, 1) var frames_invisiveis_para_remover: int = 2
 @export var exigir_texto_qrcode: bool = true
 @export var filtrar_tamanho_qrcode: bool = true
 @export var qrcode_lado_min_m: float = 0.03
