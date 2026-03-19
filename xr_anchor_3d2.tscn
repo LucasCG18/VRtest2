@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://djg1pe7oh2bh7"]
+
+[ext_resource type="Script" uid="uid://bxfinwxm3lsgx" path="res://xr_anchor_3d.gd" id="1_0fkjy"]
+
+[node name="XRAnchor3D" type="XRAnchor3D" unique_id=1901683486]
+script = ExtResource("1_0fkjy")

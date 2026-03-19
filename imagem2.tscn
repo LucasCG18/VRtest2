@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dqc5ak81po67n"]
+
+[ext_resource type="Texture2D" uid="uid://ju573tis7cwa" path="res://simbologia-valvulas-2.jpg" id="1_gk6kv"]
+
+[node name="XRAnchor3D" type="XRAnchor3D" unique_id=1659085380]
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=556310096]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+texture = ExtResource("1_gk6kv")

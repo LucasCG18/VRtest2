@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://bfjve8su56she"]
+
+[ext_resource type="Script" uid="uid://c74kvgh4wkls4" path="res://botão.gd" id="1_whga6"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_gwu75"]
+height = 0.43208313
+radius = 0.5029297
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_whga6"]
+
+[node name="Botão" type="Area3D" unique_id=944839473]
+script = ExtResource("1_whga6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=32974781]
+transform = Transform3D(0.1, 0, 0, 0, -4.371139e-09, -0.1, 0, 0.1, -4.371139e-09, 0, -2.3955689e-09, -0.6163274)
+shape = SubResource("CylinderShape3D_gwu75")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1435906343]
+transform = Transform3D(0.1, 0, 0, 0, -6.556708e-10, -0.1, 0, 0.015, -4.371139e-09, 0, 0, -0.61682516)
+mesh = SubResource("CylinderMesh_whga6")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

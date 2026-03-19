@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bavrk2wqw6o0o"]
+
+[ext_resource type="Script" uid="uid://cq0w1qvei48yv" path="res://imagem_marcador.gd" id="1_d6w5m"]
+[ext_resource type="Texture2D" uid="uid://c78lt5gx810dk" path="res://Double-acting cylinder with cushioning on both sides symbol.jpg" id="2_d6w5m"]
+
+[node name="ImagemMarcador" type="XRAnchor3D" unique_id=1263630359]
+script = ExtResource("1_d6w5m")
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=368600779]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+texture = ExtResource("2_d6w5m")

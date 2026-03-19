@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://dd0v0p1njuf8l"]
+
+[ext_resource type="Script" uid="uid://ble433sgjc8n5" path="res://XRorigin3D.gd" id="1_a202f"]
+[ext_resource type="PackedScene" uid="uid://bfjve8su56she" path="res://botão.tscn" id="2_noarx"]
+[ext_resource type="PackedScene" uid="uid://bufelcry36rw1" path="res://addons/xr-autohandtracker/auto_handtracker.tscn" id="4_jka67"]
+[ext_resource type="PackedScene" uid="uid://3gjkc6qju2n3" path="res://addons/gltf/LeftHandHumanoid.gltf" id="5_i5arm"]
+[ext_resource type="PackedScene" uid="uid://bymg1qpy1tu2w" path="res://addons/gltf/RightHandHumanoid.gltf" id="6_wc5p8"]
+[ext_resource type="PackedScene" uid="uid://bavrk2wqw6o0o" path="res://imagem_marcador.tscn" id="7_wc5p8"]
+[ext_resource type="Script" uid="uid://5i2ufxhb0ig7" path="res://nodeAnchors.gd" id="8_jsk3o"]
+[ext_resource type="Script" uid="uid://dwx7cdi7m4w8c" path="res://TestandoManipuladordeAncoras.gd" id="9_4arys"]
+[ext_resource type="PackedScene" uid="uid://dqc5ak81po67n" path="res://imagem2.tscn" id="9_6iypd"]
+[ext_resource type="PackedScene" uid="uid://ducq72r0k5ssj" path="res://Sensor.tscn" id="10_6iypd"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_r3fl7"]
+radius = 0.10128032
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_jka67"]
+radius = 1.0206741
+
+[node name="XROrigin3D" type="XROrigin3D" unique_id=1121633353]
+script = ExtResource("1_a202f")
+
+[node name="XRCamera3D" type="XRCamera3D" parent="." unique_id=2080313959]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=638974589]
+transform = Transform3D(-0.81969076, 0.44111353, -0.365412, 0.3277269, 0.8843611, 0.3324163, 0.46978945, 0.15272324, -0.8694674, 0, 0.3347395, 0.9447)
+
+[node name="Botão" parent="." unique_id=944839473 instance=ExtResource("2_noarx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.90057266, -0.12351242)
+
+[node name="LeftXRNode3D" type="XRController3D" parent="." unique_id=905628586]
+tracker = &"left_hand"
+show_when_tracked = true
+
+[node name="Node3D" type="Node3D" parent="LeftXRNode3D" unique_id=232342201]
+
+[node name="LeftHandHumanoid2" parent="LeftXRNode3D/Node3D" unique_id=823978959 instance=ExtResource("5_i5arm")]
+
+[node name="Skeleton3D" parent="LeftXRNode3D/Node3D/LeftHandHumanoid2/LeftHandHumanoid" parent_id_path=PackedInt32Array(823978959, 1216804164) index="0" unique_id=328656998]
+visible = false
+
+[node name="XRHandModifier3D" type="XRHandModifier3D" parent="LeftXRNode3D/Node3D/LeftHandHumanoid2/LeftHandHumanoid/Skeleton3D" index="1" unique_id=560925222]
+visible = false
+
+[node name="Area3D" type="Area3D" parent="LeftXRNode3D/Node3D" unique_id=1447055700]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftXRNode3D/Node3D/Area3D" unique_id=283652144]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.016425256, 0.009941086, -0.08919105)
+shape = SubResource("SphereShape3D_r3fl7")
+
+[node name="AutoHandtracker" parent="LeftXRNode3D" unique_id=1253799001 instance=ExtResource("4_jka67")]
+
+[node name="AutoTracker" parent="LeftXRNode3D/AutoHandtracker" index="1"]
+target_button_path = NodePath("../../../Botão")
+
+[node name="RightXRNode3D" type="XRController3D" parent="." unique_id=1373250853]
+tracker = &"right_hand"
+show_when_tracked = true
+
+[node name="Node3D" type="Node3D" parent="RightXRNode3D" unique_id=621634701]
+
+[node name="RightHandHumanoid2" parent="RightXRNode3D/Node3D" unique_id=561211135 instance=ExtResource("6_wc5p8")]
+
+[node name="Skeleton3D" parent="RightXRNode3D/Node3D/RightHandHumanoid2/RightHandHumanoid" parent_id_path=PackedInt32Array(561211135, 1030686608) index="0" unique_id=2128727825]
+transform = Transform3D(0.1453373, 0.20158298, -0.968629, 0.98761535, 0.028922588, 0.15420541, 0.059100468, -0.97904396, -0.19488275, -0.006666988, -0.0060307384, -0.05202818)
+visible = false
+
+[node name="XRHandModifier3D" type="XRHandModifier3D" parent="RightXRNode3D/Node3D/RightHandHumanoid2/RightHandHumanoid/Skeleton3D" index="1" unique_id=1017921610]
+visible = false
+hand_tracker = &"/user/hand_tracker/right"
+
+[node name="Area3D" type="Area3D" parent="RightXRNode3D/Node3D" unique_id=1591763801]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightXRNode3D/Node3D/Area3D" unique_id=2145496730]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.07637432, -0.009435147, -0.045447)
+shape = SubResource("SphereShape3D_jka67")
+
+[node name="AutoHandtracker" parent="RightXRNode3D" unique_id=1100920845 instance=ExtResource("4_jka67")]
+
+[node name="AutoTracker" parent="RightXRNode3D/AutoHandtracker" index="1"]
+target_button_path = NodePath("../../../Botão")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1149277289]
+script = ExtResource("8_jsk3o")
+
+[node name="Node" type="Node" parent="." unique_id=265109986]
+script = ExtResource("9_4arys")
+cena_da_imagem = ExtResource("7_wc5p8")
+qrcode_texto_alvo = "teste88"
+
+[node name="Node2" type="Node" parent="." unique_id=1456212040]
+script = ExtResource("9_4arys")
+cena_da_imagem = ExtResource("9_6iypd")
+qrcode_texto_alvo = "teste2"
+
+[node name="Node3" type="Node" parent="." unique_id=1556712109]
+script = ExtResource("9_4arys")
+cena_da_imagem = ExtResource("10_6iypd")
+
+[connection signal="area_entered" from="Botão" to="Botão" method="_on_area_entered"]
+
+[editable path="Botão"]
+[editable path="LeftXRNode3D/Node3D/LeftHandHumanoid2"]
+[editable path="LeftXRNode3D/AutoHandtracker"]
+[editable path="RightXRNode3D/Node3D/RightHandHumanoid2"]
+[editable path="RightXRNode3D/AutoHandtracker"]

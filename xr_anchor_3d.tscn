@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://5eiox0fmugk5"]
+
+[ext_resource type="Texture2D" uid="uid://bgcrlgfyktrd0" path="res://addons/xr-autohandtracker/Urgencia.png" id="1_okho4"]
+
+[node name="XRAnchor3D" type="XRAnchor3D" unique_id=1263630359]
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=368600779]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+texture = ExtResource("1_okho4")
