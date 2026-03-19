@@ -96,6 +96,8 @@ qrcode_texto_alvo = "teste2"
 [node name="Node3" type="Node" parent="." unique_id=1556712109]
 script = ExtResource("9_4arys")
 cena_da_imagem = ExtResource("10_6iypd")
+exigir_texto_qrcode = false
+filtrar_tamanho_qrcode = false
 
 [connection signal="area_entered" from="Botão" to="Botão" method="_on_area_entered"]
 

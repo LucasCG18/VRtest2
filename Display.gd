@@ -157,17 +157,7 @@ func _read_clients() -> void:
 			_finalize_client(i, peer)
 			continue
 
-		var temperature: Variant = metrics["temperature"]
-		var pressure: Variant = metrics["pressure"]
-		var flow: Variant = metrics["flow"]
-		var nas_particle: Variant = metrics["nas_particle"]
-
-		label.text = "Temp: %s C\nPress: %s\nFlow: %s\nNas: %s" % [
-			str(temperature),
-			str(pressure),
-			str(flow),
-			str(nas_particle)
-		]
+		label.text = _format_pretty_metrics(metrics)
 
 		_dbg("Dados aceitos: %s" % str(metrics))
 		_send_http_response(peer, 200, "OK")
@@ -282,6 +272,45 @@ func _extract_metrics(body: String) -> Dictionary:
 		"flow": obj.get("flow", null),
 		"nas_particle": obj.get("nas_particle", null)
 	}
+
+func _format_pretty_metrics(metrics: Dictionary) -> String:
+	var temperature: Variant = metrics.get("temperature", null)
+	var pressure: Variant = metrics.get("pressure", null)
+	var flow: Variant = metrics.get("flow", null)
+	var nas_particle: Variant = metrics.get("nas_particle", null)
+
+	var temp_txt: String = _fmt_number(temperature, 1, "°C")
+	var pressure_txt: String = _fmt_number(pressure, 2, "bar")
+	var flow_txt: String = _fmt_number(flow, 1, "L/min")
+	var nas_txt: String = "N/A" if nas_particle == null else str(nas_particle)
+
+	var pressure_status: String = "⚠ Baixa" if _is_number(pressure) and float(pressure) <= 0.0 else "✅ Normal"
+	var flow_status: String = "⚠ Reverso" if _is_number(flow) and float(flow) < 0.0 else "✅ Normal"
+
+	var lines: PackedStringArray = [
+		"📡 LEITURA DOS SENSORES",
+		"━━━━━━━━━━━━━━━━━━",
+		"🌡 Temperatura: %s" % temp_txt,
+		"🧭 Pressao    : %s (%s)" % [pressure_txt, pressure_status],
+		"💧 Fluxo      : %s (%s)" % [flow_txt, flow_status],
+		"🧪 NAS Part.  : %s" % nas_txt,
+		"━━━━━━━━━━━━━━━━━━",
+		"Atualizado agora"
+	]
+	return "\n".join(lines)
+
+func _fmt_number(value: Variant, decimals: int, unit: String) -> String:
+	if value == null:
+		return "N/A"
+
+	if not _is_number(value):
+		return str(value)
+
+	return "%.*f %s" % [decimals, float(value), unit]
+
+func _is_number(value: Variant) -> bool:
+	var t: int = typeof(value)
+	return t == TYPE_INT or t == TYPE_FLOAT
 
 func _send_http_response(peer: StreamPeerTCP, status_code: int, body: String) -> void:
 	var status_text: String = "OK"

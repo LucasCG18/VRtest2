@@ -8,5 +8,6 @@ script = ExtResource("1_y70js")
 [node name="Label3D" type="Label3D" parent="." unique_id=1985219242]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0015967414, 0)
 custom_aabb = AABB(0, 0, 0, 0.01, 0.01, 0)
-font_size = 12
-outline_size = 8
+font_size = 6
+outline_size = 0
+width = 50.0
