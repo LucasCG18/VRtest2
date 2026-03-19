@@ -7,6 +7,7 @@ extends Node
 @export var tempo_para_apagar_segundos: float = 2.0
 @export var intervalo_atualizacao_segundos: float = 1
 @export var frames_visiveis_para_spawn: int = 2
+@export_range(1, 120, 1) var frames_invisiveis_para_remover: int = 2
 @export var exigir_texto_qrcode: bool = true
 @export var filtrar_tamanho_qrcode: bool = true
 @export var qrcode_lado_min_m: float = 0.03
@@ -15,6 +16,7 @@ extends Node
 var marcadores_ativos: Dictionary = {}
 var ultimo_update_marcador_ms: Dictionary = {}
 var _contagem_visivel_por_tracker: Dictionary = {}
+var _contagem_invisivel_por_tracker: Dictionary = {}
 var _acumulador_atualizacao_s: float = 0.0
 
 func _ready():
@@ -138,8 +140,15 @@ func _try_spawn_visual_for_tracker(tracker_name: StringName, marker_tracker: Ope
 		return
 
 	if not _marker_esta_visivel(marker_tracker):
+		var contagem_invisivel_atual: int = int(_contagem_invisivel_por_tracker.get(tracker_name, 0)) + 1
+		_contagem_invisivel_por_tracker[tracker_name] = contagem_invisivel_atual
 		_contagem_visivel_por_tracker[tracker_name] = 0
+
+		if marcadores_ativos.has(tracker_name) and contagem_invisivel_atual >= max(1, frames_invisiveis_para_remover):
+			_remover_visual(tracker_name, "tracking instavel/invisivel")
 		return
+
+	_contagem_invisivel_por_tracker.erase(tracker_name)
 
 	var contagem_visivel_atual: int = int(_contagem_visivel_por_tracker.get(tracker_name, 0)) + 1
 	_contagem_visivel_por_tracker[tracker_name] = contagem_visivel_atual
@@ -216,6 +225,8 @@ func _on_tracker_removed(tracker_name: StringName, type: int):
 		return
 
 	_contagem_visivel_por_tracker.erase(tracker_name)
+	_contagem_invisivel_por_tracker.erase(tracker_name)
+	ultimo_update_marcador_ms.erase(tracker_name)
 
 	if marcadores_ativos.has(tracker_name):
 		print("[DEBUG] A câmera perdeu a tag de vista. Removendo...")
@@ -254,3 +265,4 @@ func _remover_visual(tracker_name: StringName, motivo: String) -> void:
 	marcadores_ativos.erase(tracker_name)
 	ultimo_update_marcador_ms.erase(tracker_name)
 	_contagem_visivel_por_tracker.erase(tracker_name)
+	_contagem_invisivel_por_tracker.erase(tracker_name)
