@@ -96,7 +96,6 @@ func _on_tracker_added(tracker_name: StringName, type: int):
 	var tracker: XRTracker = XRServer.get_tracker(tracker_name)
 	if tracker == null:
 		return
-
 	if not (tracker is OpenXRMarkerTracker):
 		return
 
